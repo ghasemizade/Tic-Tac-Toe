@@ -15,11 +15,31 @@ class HomeScreen extends StatelessWidget {
         title: Text('Tic Tac Toe'),
       ),
       backgroundColor: Colors.blueGrey[900],
-      body: Column(
-        children: [
-          _getPlayerScoreBoard(),
-          _getGridView(),
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            _getPlayerScoreBoard(),
+            SizedBox(
+              height: 20.0,
+            ),
+            _getGridView(),
+            _getTurn(),
+            SizedBox(
+              height: 20.0,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _getTurn() {
+    return Text(
+      'turn O',
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 20.0,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -90,15 +110,24 @@ class HomeScreen extends StatelessWidget {
           crossAxisCount: 3,
         ),
         itemBuilder: (context, index) {
-          return Container(
-            height: 100.0,
-            width: 100.0,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.blueGrey),
+          return GestureDetector(
+            onTap: () {
+              tapped(index);
+            },
+            child: Container(
+              height: 100.0,
+              width: 100.0,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blueGrey),
+              ),
             ),
           );
         },
       ),
     );
+  }
+
+  void tapped(int index) {
+    print('$index');
   }
 }
