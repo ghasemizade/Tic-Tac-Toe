@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
-  get isTurnO => null;
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isTurnO = true;
+
+  List<String> XorOList = ['', '', '', '', '', '', '', '', ''];
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget _getTurn() {
     return Text(
-      'turn O',
+      isTurnO ? "Turn O" : "Turn X",
       style: TextStyle(
         color: Colors.white,
         fontSize: 20.0,
@@ -120,6 +127,13 @@ class HomeScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.blueGrey),
               ),
+              child: Text(
+                XorOList[index],
+                style: TextStyle(
+                  fontSize: 40.0,
+                  color: Colors.teal,
+                ),
+              ),
             ),
           );
         },
@@ -129,5 +143,15 @@ class HomeScreen extends StatelessWidget {
 
   void tapped(int index) {
     print('$index');
+    setState(() {
+      if (isTurnO && XorOList[index] == '') {
+        XorOList[index] = 'O';
+        isTurnO = false;
+      }
+      if (!isTurnO && XorOList[index] == '') {
+        XorOList[index] = 'X';
+        isTurnO = true;
+      }
+    });
   }
 }
