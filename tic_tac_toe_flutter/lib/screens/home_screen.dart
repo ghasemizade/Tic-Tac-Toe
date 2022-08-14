@@ -17,11 +17,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.blueGrey[900],
+        backgroundColor: Colors.blueGrey[800],
         centerTitle: true,
-        title: Text('Tic Tac Toe'),
+        title: Text(
+          'Tic Tac Toe',
+          style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w900),
+        ),
       ),
-      backgroundColor: Colors.blueGrey[900],
+      backgroundColor: Colors.blueGrey[800],
       body: SafeArea(
         child: Column(
           children: [
@@ -45,8 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
       isTurnO ? "Turn O" : "Turn X",
       style: TextStyle(
         color: Colors.white,
-        fontSize: 20.0,
-        fontWeight: FontWeight.bold,
+        fontSize: 24.0,
+        fontWeight: FontWeight.w800,
       ),
     );
   }
@@ -59,16 +62,38 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Player O',
-                  style: TextStyle(color: Colors.red, fontSize: 18.0),
+                child: Container(
+                  height: 100.0,
+                  width: 80.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      CircleAvatar(
+                        backgroundImage: AssetImage('Images/man_avatar.png'),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        'Player O',
+                        style: TextStyle(color: Colors.blue, fontSize: 18.0),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '0',
-                  style: TextStyle(color: Colors.red, fontSize: 18.0),
+                  style: TextStyle(color: Colors.blue, fontSize: 18.0),
                 ),
               ),
             ],
@@ -79,16 +104,38 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'Player X',
-                  style: TextStyle(color: Colors.blue, fontSize: 18.0),
+                child: Container(
+                  height: 100.0,
+                  width: 80.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 5.0,
+                      ),
+                      CircleAvatar(
+                        backgroundImage: AssetImage('Images/woman_avatar.png'),
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        'Player X',
+                        style: TextStyle(color: Colors.green, fontSize: 18.0),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '0',
-                  style: TextStyle(color: Colors.blue, fontSize: 18.0),
+                  style: TextStyle(color: Colors.green, fontSize: 18.0),
                 ),
               ),
             ],
@@ -127,11 +174,13 @@ class _HomeScreenState extends State<HomeScreen> {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.blueGrey),
               ),
-              child: Text(
-                XorOList[index],
-                style: TextStyle(
-                  fontSize: 40.0,
-                  color: Colors.teal,
+              child: Center(
+                child: Text(
+                  XorOList[index],
+                  style: TextStyle(
+                    fontSize: 40.0,
+                    color: Colors.teal,
+                  ),
                 ),
               ),
             ),
