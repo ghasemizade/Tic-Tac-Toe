@@ -178,8 +178,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   XorOList[index],
                   style: TextStyle(
-                    fontSize: 40.0,
-                    color: Colors.teal,
+                    fontSize: 50.0,
+                    fontWeight: FontWeight.w900,
+                    color: XorOList[index] == 'X' ? Colors.green : Colors.blue,
                   ),
                 ),
               ),
