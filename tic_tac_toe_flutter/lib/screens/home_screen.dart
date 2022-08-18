@@ -194,14 +194,58 @@ class _HomeScreenState extends State<HomeScreen> {
   void tapped(int index) {
     print('$index');
     setState(() {
-      if (isTurnO && XorOList[index] == '') {
+      if (XorOList[index] != '') {
+        return;
+      }
+
+      if (isTurnO) {
         XorOList[index] = 'O';
-        isTurnO = false;
-      }
-      if (!isTurnO && XorOList[index] == '') {
+      } else {
         XorOList[index] = 'X';
-        isTurnO = true;
       }
+      isTurnO = !isTurnO;
+
+      checkWinner();
     });
+  }
+
+  void checkWinner() {
+    // Row
+    if (XorOList[0] == XorOList[1] &&
+        XorOList[0] == XorOList[2] &&
+        XorOList[0] != '') {
+      print('Winner is ' + XorOList[0] + ' player.');
+    }
+
+    if (XorOList[3] == XorOList[4] &&
+        XorOList[3] == XorOList[5] &&
+        XorOList[3] != '') {
+      print('Winner is ' + XorOList[3] + ' player.');
+    }
+
+    if (XorOList[6] == XorOList[7] &&
+        XorOList[6] == XorOList[8] &&
+        XorOList[6] != '') {
+      print('Winner is ' + XorOList[6] + ' player.');
+    }
+
+    // Column
+    if (XorOList[0] == XorOList[3] &&
+        XorOList[0] == XorOList[6] &&
+        XorOList[0] != '') {
+      print('Winner is ' + XorOList[0] + ' player.');
+    }
+
+    if (XorOList[1] == XorOList[4] &&
+        XorOList[1] == XorOList[7] &&
+        XorOList[1] != '') {
+      print('Winner is ' + XorOList[1] + ' player.');
+    }
+
+    if (XorOList[2] == XorOList[5] &&
+        XorOList[2] == XorOList[8] &&
+        XorOList[2] != '') {
+      print('Winner is ' + XorOList[2] + ' player.');
+    }
   }
 }
