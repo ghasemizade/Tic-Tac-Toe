@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,6 +12,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isTurnO = true;
 
   List<String> XorOList = ['', '', '', '', '', '', '', '', ''];
+  int fildBox = 0;
+  bool hasResult = false;
+  int scoreX = 0;
+  int scoreO = 0;
+  String winnerTitle = 'loading...';
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
           'Tic Tac Toe',
           style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w900),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              refreshGame();
+            },
+            icon: Icon(Icons.refresh),
+          ),
+        ],
       ),
       backgroundColor: Colors.blueGrey[800],
       body: SafeArea(
@@ -30,7 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             _getPlayerScoreBoard(),
             SizedBox(
-              height: 20.0,
+              height: 5.0,
+            ),
+            _getResultButton(),
+            SizedBox(
+              height: 5.0,
             ),
             _getGridView(),
             _getTurn(),
@@ -38,6 +56,29 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 20.0,
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _getResultButton() {
+    return Visibility(
+      visible: hasResult,
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          primary: Colors.white,
+          side: BorderSide(color: Colors.white),
+        ),
+        onPressed: () {
+          setState(() {
+            hasResult = false;
+            refreshGame();
+          });
+        },
+        child: Text(
+          '$winnerTitle, play again!',
+          style: TextStyle(
+              color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.w400),
         ),
       ),
     );
@@ -92,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  '0',
+                  '$scoreO',
                   style: TextStyle(color: Colors.blue, fontSize: 18.0),
                 ),
               ),
@@ -134,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  '0',
+                  '$scoreX',
                   style: TextStyle(color: Colors.green, fontSize: 18.0),
                 ),
               ),
@@ -193,6 +234,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void tapped(int index) {
     print('$index');
+    if (hasResult) {
+      return;
+    }
+
     setState(() {
       if (XorOList[index] != '') {
         return;
@@ -200,8 +245,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (isTurnO) {
         XorOList[index] = 'O';
+        fildBox++;
       } else {
         XorOList[index] = 'X';
+        fildBox++;
       }
       isTurnO = !isTurnO;
 
@@ -210,42 +257,90 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void checkWinner() {
-    // Row
+    // Row-------------------------------------------
     if (XorOList[0] == XorOList[1] &&
         XorOList[0] == XorOList[2] &&
         XorOList[0] != '') {
-      print('Winner is ' + XorOList[0] + ' player.');
+      setResult(XorOList[0], 'Winner is ' + XorOList[0]);
+      return;
     }
 
     if (XorOList[3] == XorOList[4] &&
         XorOList[3] == XorOList[5] &&
         XorOList[3] != '') {
-      print('Winner is ' + XorOList[3] + ' player.');
+      setResult(XorOList[3], 'Winner is ' + XorOList[3]);
+      return;
     }
 
     if (XorOList[6] == XorOList[7] &&
         XorOList[6] == XorOList[8] &&
         XorOList[6] != '') {
-      print('Winner is ' + XorOList[6] + ' player.');
+      setResult(XorOList[6], 'Winner is ' + XorOList[6]);
+      return;
     }
 
-    // Column
+    // Column----------------------------------------
     if (XorOList[0] == XorOList[3] &&
         XorOList[0] == XorOList[6] &&
         XorOList[0] != '') {
-      print('Winner is ' + XorOList[0] + ' player.');
+      setResult(XorOList[0], 'Winner is ' + XorOList[0]);
+      return;
     }
 
     if (XorOList[1] == XorOList[4] &&
         XorOList[1] == XorOList[7] &&
         XorOList[1] != '') {
-      print('Winner is ' + XorOList[1] + ' player.');
+      setResult(XorOList[1], 'Winner is ' + XorOList[1]);
+      return;
     }
 
     if (XorOList[2] == XorOList[5] &&
         XorOList[2] == XorOList[8] &&
         XorOList[2] != '') {
-      print('Winner is ' + XorOList[2] + ' player.');
+      setResult(XorOList[2], 'Winner is ' + XorOList[2]);
+      return;
     }
+
+    //Diagonal---------------------------------------
+    if (XorOList[0] == XorOList[4] &&
+        XorOList[0] == XorOList[8] &&
+        XorOList[0] != '') {
+      setResult(XorOList[0], 'Winner is ' + XorOList[0]);
+      return;
+    }
+
+    if (XorOList[2] == XorOList[4] &&
+        XorOList[2] == XorOList[6] &&
+        XorOList[2] != '') {
+      setResult(XorOList[2], 'Winner is ' + XorOList[2]);
+      return;
+    }
+
+    //Draw-------------------------------------------
+    if (fildBox == 9) {
+      setResult('', 'Draw');
+    }
+  }
+
+  void setResult(String winner, String title) {
+    setState(() {
+      hasResult = true;
+      winnerTitle = title;
+      if (winner == 'X') {
+        scoreX++;
+      } else if (winner == 'O') {
+        scoreO++;
+      }
+    });
+  }
+
+  void refreshGame() {
+    setState(() {
+      for (var i = 0; i < XorOList.length; i++) {
+        XorOList[i] = '';
+      }
+    });
+
+    fildBox = 0;
   }
 }
